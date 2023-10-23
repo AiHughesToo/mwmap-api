@@ -1,0 +1,60 @@
+class LocationsController < ApplicationController
+  before_action :set_location, only: [:show, :update, :destroy]
+
+  # GET /locations
+  def index
+    @locations = Location.all
+
+    render json: @locations
+  end
+
+  # GET /locations/1
+  def show
+    render json: @location
+  end
+
+  def find_map_locations
+    # lookup all locations within the range variable
+    @locations = Location.where(location_type: "magnawave").within(params[:range], :units => :miles, :origin => [params[:search_lat], params[:search_long]])
+    # return list of locations.
+    render json: @locations
+  end
+
+  # POST /locations
+  def create
+    @location = Location.new(location_params)
+
+    if @location.save
+      render json: @location, status: :created, location: @location
+    else
+      render json: @location.errors, status: :unprocessable_entity
+    end
+  end
+
+
+  # PATCH/PUT /locations/1
+  def update
+    if @location.update(location_params)
+      render json: @location
+    else
+      render json: @location.errors, status: :unprocessable_entity
+    end
+  end
+
+  # DELETE /locations/1
+  def destroy
+    @location.destroy
+  end
+
+  private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_location
+      @location = Location.find(params[:id])
+    end
+
+    # Only allow a list of trusted parameters through.
+    def location_params
+      params.require(:location).permit(:name, :latitude, :longitude, :wp_user_id, :location_type, 
+                                        :image, :web, :insta, :faceb, :email, :phone, :calendly, :range, :search_lat, :search_long)
+    end
+end
