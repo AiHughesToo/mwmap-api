@@ -13,8 +13,7 @@ Rails.application.routes.draw do
 
     #locations
     post 'find_locations' => 'locations#find_map_locations'
-    post 'locations' => 'locations#create'
-    
+   
     # #check if this host is correct
     # constraints(:host => 'https://magnawaveportal.com/') do
     #   post 'locations' => 'locations#create'
@@ -25,5 +24,5 @@ Rails.application.routes.draw do
     # end
 
     resources :users
-    resources :locations, except: [:create]
+    resources :locations
 end
