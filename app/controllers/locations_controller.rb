@@ -15,7 +15,7 @@ class LocationsController < ApplicationController
 
   def find_map_locations
     # lookup all locations within the range variable
-    @locations = Location.where(location_type: "magnawave").within(params[:range], :units => :miles, :origin => [params[:search_lat], params[:search_long]])
+    @locations = Location.where(location_type: params[:location_type]).within(params[:range], :units => :miles, :origin => [params[:search_lat], params[:search_long]])
     # return list of locations.
     render json: @locations
   end
@@ -55,6 +55,9 @@ class LocationsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def location_params
       params.require(:location).permit(:name, :latitude, :longitude, :wp_user_id, :location_type, 
-                                        :image, :web, :insta, :faceb, :email, :phone, :calendly, :range, :search_lat, :search_long)
+                                        :image, :web, :insta, :faceb, :email, :phone, :calendly, 
+                                        :range, :search_lat, :search_long, :services, :address_l1, :address_l2, 
+                                        :address_state, :address_city, :address_zip, :rank, :purchased_lead_count,
+                                        :delivered_lead_count, :cms_id, :location_active)
     end
 end
