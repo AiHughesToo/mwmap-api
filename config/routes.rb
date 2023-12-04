@@ -14,14 +14,14 @@ Rails.application.routes.draw do
     #locations
     post 'find_locations' => 'locations#find_map_locations'
     
-    #check if this host is correct
-    constraints(:host => 'https://magnawaveportal.com/') do
-      post 'locations' => 'locations#create'
-    end
+    # #check if this host is correct
+    # constraints(:host => 'https://magnawaveportal.com/') do
+    #   post 'locations' => 'locations#create'
+    # end
 
-    constraints(:host => '127.0.0.1') do
-      post 'locations' => 'locations#create'
-    end
+    # constraints(:host => '127.0.0.1') do
+    #   post 'locations' => 'locations#create'
+    # end
 
     resources :users
     resources :locations, except: [:create]
