@@ -15,6 +15,7 @@ class UsersController < ApplicationController
   end
 
   # POST /users
+  # TODO protect this for admins only after first deploy
   def create
     @user = User.new(user_params)
   
