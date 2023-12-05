@@ -5,7 +5,7 @@ class LocationsController < ApplicationController
   def index
     @locations = Location.all
 
-    render json: @locations
+    render json: @locations, each_serializer: LocationSerializerAdmin
   end
 
   # GET /locations/1
@@ -15,9 +15,7 @@ class LocationsController < ApplicationController
 
   def find_map_locations
     # lookup all locations within the range variable
-    p 'Im in find map locations'
     @locations = Location.where(location_type: params[:location_type]).within(params[:range], :units => :miles, :origin => [params[:search_lat], params[:search_long]])
-    p @locations
     # return list of locations.
     render json: @locations
   end

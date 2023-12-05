@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :update, :destroy]
-  before_action :authenticate_token!, except: [:create, :password_reset, :index]
+  before_action :authenticate_token!, except: [:password_reset, :index]
 
   # GET /users
   def index
@@ -15,7 +15,6 @@ class UsersController < ApplicationController
   end
 
   # POST /users
-  # TODO protect this for admins only after first deploy
   def create
     @user = User.new(user_params)
   
