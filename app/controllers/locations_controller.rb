@@ -28,7 +28,7 @@ class LocationsController < ApplicationController
 
     else
       has_purchased = @selected.select { |l| l["purchased_lead_count"] > 0}
-      owed_leads = has_purchased.select { |l| l["delivered_lead_count"] > l["purchased_lead_count"]}
+      owed_leads = has_purchased.select { |l| l["delivered_lead_count"] < l["purchased_lead_count"]}
 
       if !has_purchased.empty? && !owed_leads.empty?
         # owed_leads = has_purchased.sort_by { |l| l["delivered_lead_count"] }
