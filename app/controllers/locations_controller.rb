@@ -15,16 +15,36 @@ class LocationsController < ApplicationController
 
   def find_map_locations
     @locations = Location.where(location_type: params[:location_type]).within(params[:range], :units => :miles, :origin => [params[:search_lat], params[:search_long]])
-
+    
     # eval the array here. decide which mailer to use. 
     @selected = @locations.select {|location| location["rank"] > 0}
+    p "SELECTED"
     p @selected
     if @selected.empty?
-      # LocationMailer.new_lead(@locations, params[:s_name], params[:s_phone], :params[:s_email]).deliver_now
+      p "all are rank 0"
+      @locations.each do |l|
+         LocationMailer.lead_for_all_email(l[:email], params[:s_name], params[:s_phone], :params[:s_email]).deliver_now
+      end
+
     else
-      # do somethign else
-      sorted = @locations.sort_by { |k| k["rank"] }
-      p sorted
+      p "IM HERE 1"
+     has_purchased = @selected.select { |l| l["purchased_lead_count"] > 0}
+     p "IM HERE 2"
+     if !has_purchased.empty?
+      p "IM HERE 3"
+      owed_leads = has_purchased.sort_by { |l| l["delivered_lead_count"] }
+      this_location = owed_leads.first
+      p owed_leads.first[:email]
+       LocationMailer.lead_for_one_email(this_location[:email], params[:s_name], params[:s_phone], :params[:s_email]).deliver_now
+       p this_location[:delivered_lead_count]
+       this_location[:delivered_lead_count]++
+       p this_location[:delivered_lead_count]
+       this_location.save
+     else
+      @locations.each do |l|
+        LocationMailer.lead_for_all_email(l[:email], params[:s_name], params[:s_phone], :params[:s_email]).deliver_now
+      end
+     end
     end
     
 

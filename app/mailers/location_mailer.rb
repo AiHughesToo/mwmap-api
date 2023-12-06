@@ -1,12 +1,25 @@
 class LocationMailer < ApplicationMailer
 
 
-    def new_lead_email(locations, s_name, s_phone, s_email)
-    #   @user = user
-    #   @url = ResponseHelper::PASSWORD_RESET_URL
-    #   mail(to: @user.email, subjet: ResponseHelper::WELCOME_SUBJECT_LINE)
+    def lead_for_all_email(email, s_name, s_phone, s_email)
+      p "im in the locations mailer."
+      p email
+      @s_name = s_name
+      @s_email = s_email
+      @s_phone = s_phone
+     # mail(to: email, subjet: "New Map Lead")
 
-    p "im in the locations mailer."
+    end
+
+
+    def lead_for_one_email(email, s_name, s_phone, s_email)
+      p "im in the locations mailer."
+      p email
+      @s_name = s_name
+      @s_email = s_email
+      @s_phone = s_phone
+      # mail(to: email, subjet: "New Exclusive Map Lead")
+
     end
   
     
