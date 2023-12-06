@@ -34,15 +34,15 @@ class LocationsController < ApplicationController
       p "IM HERE 3"
       owed_leads = has_purchased.sort_by { |l| l["delivered_lead_count"] }
       this_location = owed_leads.first
-      p owed_leads.first[:email]
-       LocationMailer.lead_for_one_email(this_location[:email], params[:s_name], params[:s_phone], :params[:s_email]).deliver_now
-       p this_location[:delivered_lead_count]
-       this_location[:delivered_lead_count]++
-       p this_location[:delivered_lead_count]
+      p owed_leads.first["email"]
+       LocationMailer.lead_for_one_email(this_location["email"], params[:s_name], params[:s_phone], :params[:s_email]).deliver_now
+       p this_location["delivered_lead_count"]
+       this_location["delivered_lead_count"]++
+       p this_location["delivered_lead_count"]
        this_location.save
      else
       @locations.each do |l|
-        LocationMailer.lead_for_all_email(l[:email], params[:s_name], params[:s_phone], :params[:s_email]).deliver_now
+        LocationMailer.lead_for_all_email(l["email"], params[:s_name], params[:s_phone], :params[:s_email]).deliver_now
       end
      end
     end
