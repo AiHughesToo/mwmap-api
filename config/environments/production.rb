@@ -110,4 +110,20 @@ Rails.application.configure do
   # config.active_record.database_selector = { delay: 2.seconds }
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
+
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  # Mailer
+  Rails.application.routes.default_url_options[:host] = 'https://mw-map-api-8512588b5c8e.herokuapp.com'
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+      address:              'smtp.gmail.com',
+      port:                 587,
+      domain:               'gmail.com',
+      user_name:            "magnawavedevelopment@gmail.com",
+      password:             "smxs zxiq jlsr rvsh",
+      authentication:       'plain',
+      enable_starttls_auto: true
+  }
+
 end

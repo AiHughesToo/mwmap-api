@@ -7,7 +7,7 @@ class LocationMailer < ApplicationMailer
       @s_name = s_name
       @s_email = s_email
       @s_phone = s_phone
-     # mail(to: email, subjet: "New Map Lead")
+      mail(to: email, subjet: "New Map Lead")
 
     end
 
@@ -18,7 +18,7 @@ class LocationMailer < ApplicationMailer
       @s_name = s_name
       @s_email = s_email
       @s_phone = s_phone
-      # mail(to: email, subjet: "New Exclusive Map Lead")
+      mail(to: email, subjet: "New Exclusive Map Lead")
 
     end
   
