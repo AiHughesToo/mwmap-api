@@ -28,24 +28,26 @@ class LocationsController < ApplicationController
 
     else
       p "IM HERE 1"
-     has_purchased = @selected.select { |l| l["purchased_lead_count"] > 0}
-     p "IM HERE 2"
-     if !has_purchased.empty?
-      p "IM HERE 3"
-      owed_leads = has_purchased.sort_by { |l| l["delivered_lead_count"] }
-     # prime_location = owed_leads.first
-      p owed_leads.first[:email]
-      @prime_location = owed_leads.first
-      p @prime_location[:email]
-      #  LocationMailer.lead_for_one_email(prime_location["email"], params[:s_name], params[:s_phone], :params[:s_email]).deliver_now
-       p @prime_location[:delivered_lead_count]
-       @prime_location[:delivered_lead_count]++
-       p @prime_location[:delivered_lead_count]
-       # prime_location.save
+      has_purchased = @selected.select { |l| l["purchased_lead_count"] > 0}
+      p "IM HERE 2"
+      if !has_purchased.empty?
+        p "IM HERE 3"
+        owed_leads = has_purchased.sort_by { |l| l["delivered_lead_count"] }
+        # prime_location = owed_leads.first
+        p owed_leads.first[:email]
+        @prime_location = owed_leads.first
+        p @prime_location[:email]
+        #  LocationMailer.lead_for_one_email(prime_location["email"], params[:s_name], params[:s_phone], :params[:s_email]).deliver_now
+        p @prime_location[:delivered_lead_count]
+        
+        @prime_location[:delivered_lead_count] = @prime_location[:delivered_lead_count] + 1
+
+        p @prime_location[:delivered_lead_count]
+        # prime_location.save
      else
-      @locations.each do |l|
-        LocationMailer.lead_for_all_email(l[:email], params[:s_name], params[:s_phone], :params[:s_email]).deliver_now
-      end
+        @locations.each do |l|
+          LocationMailer.lead_for_all_email(l[:email], params[:s_name], params[:s_phone], :params[:s_email]).deliver_now
+        end
      end
     end
     
