@@ -39,7 +39,7 @@ class LocationsController < ApplicationController
       p @prime_location[:email]
       #  LocationMailer.lead_for_one_email(prime_location["email"], params[:s_name], params[:s_phone], :params[:s_email]).deliver_now
        p @prime_location[:delivered_lead_count]
-       @prime_location[:delivered_lead_count:]++
+       @prime_location[:delivered_lead_count]++
        p @prime_location[:delivered_lead_count]
        # prime_location.save
      else
