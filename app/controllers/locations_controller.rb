@@ -14,9 +14,20 @@ class LocationsController < ApplicationController
   end
 
   def find_map_locations
-    # lookup all locations within the range variable
     @locations = Location.where(location_type: params[:location_type]).within(params[:range], :units => :miles, :origin => [params[:search_lat], params[:search_long]])
-    # return list of locations.
+
+    # eval the array here. decide which mailer to use. 
+    @selected = @locations.select {|location| location["rank"] > 0}
+    p @selected
+    if @selected.empty?
+      # LocationMailer.new_lead(@locations, params[:s_name], params[:s_phone], :params[:s_email]).deliver_now
+    else
+      # do somethign else
+      sorted = @locations.sort_by { |k| k["rank"] }
+      p sorted
+    end
+    
+
     render json: @locations
   end
 
@@ -58,6 +69,6 @@ class LocationsController < ApplicationController
                                         :image, :web, :insta, :faceb, :email, :phone, :calendly, 
                                         :range, :search_lat, :search_long, :services, :address_l1, :address_l2, 
                                         :address_state, :address_city, :address_zip, :rank, :purchased_lead_count,
-                                        :delivered_lead_count, :cms_id, :location_active)
+                                        :delivered_lead_count, :cms_id, :location_active, :s_name, :s_email, :s_phone)
     end
 end
