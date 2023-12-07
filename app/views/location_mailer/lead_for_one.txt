@@ -6,9 +6,8 @@ Hello Practitioner
   Email: <%= @s_email %>
   Phone: <%= @s_phone %>
   
-  This information has been sent out to all the registered practitioners in your area. 
-  If you would like to learn about our exclusive leads program please see our awesom sales pitch. 
-
+  This contact was sent just to you. 
+  
   Thanks and happy magnaWaving!
   Sincerely,
   MagnaWave
