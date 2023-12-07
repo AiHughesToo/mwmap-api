@@ -17,8 +17,9 @@ class LocationMailer < ApplicationMailer
         @s_name = s_name
         @s_email = s_email
         @s_phone = s_phone
+        p @s_name 
         mail(to: email, subjet: "New Exclusive Map Lead")
   
       end
-      
+
 end
