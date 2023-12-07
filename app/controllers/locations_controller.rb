@@ -15,13 +15,13 @@ class LocationsController < ApplicationController
 
   def find_map_locations
     @locations = Location.where(location_type: params[:location_type]).within(params[:range], :units => :miles, :origin => [params[:search_lat], params[:search_long]])
-    
+    # sort locations by rank - so highst rank will show in list first. 
+    @locations.sort_by! { |l| l["rank"]}.reverse
     # eval the array here. decide which mailer to use. 
     @selected = @locations.select {|location| location["rank"] > 0}
-    p "SELECTED"
-    p @selected
+    
     if @selected.empty?
-      p "all are rank 0"
+
       @locations.each do |l|
          LocationMailer.lead_for_all_email(l[:email], params[:s_name], params[:s_phone], params[:s_email]).deliver_later
       end
