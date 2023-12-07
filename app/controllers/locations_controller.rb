@@ -14,15 +14,14 @@ class LocationsController < ApplicationController
   end
 
   def find_map_locations
-    @locations = Location.where(location_type: params[:location_type]).within(params[:range], :units => :miles, :origin => [params[:search_lat], params[:search_long]])
+    locations = Location.where(location_type: params[:location_type]).within(params[:range], :units => :miles, :origin => [params[:search_lat], params[:search_long]])
     # sort locations by rank - so highst rank will show in list first. 
-    @locations.sort_by! { |l| l["rank"]}.reverse
+    @sorted_locations = locations.sort_by { |l| l["rank"]}.reverse
     # eval the array here. decide which mailer to use. 
-    @selected = @locations.select {|location| location["rank"] > 0}
+    @selected = @sorted_locations.select {|location| location["rank"] > 0}
     
     if @selected.empty?
-
-      @locations.each do |l|
+      @sorted_locations.each do |l|
          LocationMailer.lead_for_all_email(l[:email], params[:s_name], params[:s_phone], params[:s_email]).deliver_later
       end
 
@@ -43,14 +42,14 @@ class LocationsController < ApplicationController
         p @prime_location[:delivered_lead_count]
         @prime_location.save
      else
-        @locations.each do |l|
+        @sorted_locations.each do |l|
           LocationMailer.lead_for_all_email(l[:email], params[:s_name], params[:s_phone], params[:s_email]).deliver_later
         end
      end
     end
     
 
-    render json: @locations
+    render json: @sorted_locations
   end
 
   # POST /locations
