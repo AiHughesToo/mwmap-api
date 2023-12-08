@@ -10,11 +10,11 @@ class LocationsController < ApplicationController
 
   # GET /locations/1
   def show
-    render json: @location
+    render json: @location, each_serializer: LocationSerializerAdmin
   end
 
   def find_map_locations
-    locations = Location.where(location_type: params[:location_type]).within(params[:range], :units => :miles, :origin => [params[:search_lat], params[:search_long]])
+    locations = Location.where(location_type: params[:location_type], location_active: true).within(params[:range], :units => :miles, :origin => [params[:search_lat], params[:search_long]])
     # sort locations by rank - so highst rank will show in list first. 
     @sorted_locations = locations.sort_by { |l| l["rank"]}.reverse
     # eval the array here. decide which mailer to use. 
@@ -34,7 +34,7 @@ class LocationsController < ApplicationController
         
         @prime_location = owed_leads.first
        
-        LocationMailer.lead_for_one_email(@prime_location[:email], params[:s_name], params[:s_phone], params[:s_email]).deliver_now
+        LocationMailer.lead_for_one_email(@prime_location[:email], @prime_locatoin[:name] params[:s_name], params[:s_phone], params[:s_email]).deliver_now
         p @prime_location[:delivered_lead_count]
 
         @prime_location[:delivered_lead_count] = @prime_location[:delivered_lead_count] + 1
@@ -87,7 +87,7 @@ class LocationsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def location_params
       params.require(:location).permit(:name, :latitude, :longitude, :wp_user_id, :location_type, 
-                                        :image, :web, :insta, :faceb, :email, :phone, :calendly, 
+                                        :image, :web, :social_one, :social_two, :email, :phone, :calendly, 
                                         :range, :search_lat, :search_long, :services, :address_l1, :address_l2, 
                                         :address_state, :address_city, :address_zip, :rank, :purchased_lead_count,
                                         :delivered_lead_count, :cms_id, :location_active, :s_name, :s_email, :s_phone)

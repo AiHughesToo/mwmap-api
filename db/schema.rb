@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_12_04_154406) do
+ActiveRecord::Schema.define(version: 2023_12_08_155910) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,8 +23,8 @@ ActiveRecord::Schema.define(version: 2023_12_04_154406) do
     t.string "location_type"
     t.string "image"
     t.string "web"
-    t.string "insta"
-    t.string "faceb"
+    t.string "social_one"
+    t.string "social_two"
     t.string "email"
     t.string "phone"
     t.string "calendly"
@@ -41,7 +41,8 @@ ActiveRecord::Schema.define(version: 2023_12_04_154406) do
     t.integer "delivered_lead_count"
     t.integer "next_purchased_lead_count"
     t.integer "cms_id"
-    t.boolean "loaction_active"
+    t.boolean "location_active"
+    t.string "description"
   end
 
   create_table "users", force: :cascade do |t|
