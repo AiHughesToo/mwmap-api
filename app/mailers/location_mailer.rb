@@ -10,12 +10,12 @@ class LocationMailer < ApplicationMailer
       end
   
   
-      def lead_for_one_email(email, s_name, s_phone, s_email)
+      def lead_for_one_email(email, business_name, s_name, s_phone, s_email)
      
         @s_name = s_name
         @s_email = s_email
         @s_phone = s_phone
-    
+        @b_name = business_name
         mail(to: email, subjet: "New Exclusive Map Lead")
   
       end
