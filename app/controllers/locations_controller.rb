@@ -73,7 +73,7 @@ class LocationsController < ApplicationController
 
   # PATCH/PUT /locations/1
   def update
-    if !params[:service_types].empty?
+    if !params[:service_types].nil?
         params[:service_types].each do |t|
           @location[:service_types] << t
         end
