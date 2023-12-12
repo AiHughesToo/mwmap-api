@@ -68,12 +68,12 @@ class LocationsController < ApplicationController
   # PATCH/PUT /locations/1
   def update
 
-    p params[:service_types]
+    # p params[:service_types]
 
-        params[:service_types].each do |t|
-          p t
-          @location[:service_types] << t
-        end
+    #     params[:service_types].each do |t|
+    #       p t
+    #       @location[:service_types] << t
+    #     end
 
     if @location.update(location_params)
       render json: @location
