@@ -14,7 +14,7 @@ class LocationsController < ApplicationController
   end
 
   def find_map_locations
-    locations = Location.where(location_type: params[:location_type], location_active: true, 'service_types @> ARRAY[?]::string[]', params[:service_types]).within(params[:range], :units => :miles, :origin => [params[:search_lat], params[:search_long]])
+    locations = Location.where(location_type: params[:location_type], location_active: true, service_types: @> params[:service_types]).within(params[:range], :units => :miles, :origin => [params[:search_lat], params[:search_long]])
     # sort locations by rank - so highst rank will show in list first. 
     @sorted_locations = locations.sort_by { |l| l["rank"]}.reverse
     # eval the array here. decide which mailer to use. 
