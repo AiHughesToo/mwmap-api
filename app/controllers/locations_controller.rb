@@ -22,7 +22,7 @@ class LocationsController < ApplicationController
     
     if @selected.empty?
       @sorted_locations.each do |l|
-         LocationMailer.lead_for_all_email(l[:email], params[:s_name], params[:s_phone], params[:s_email]).deliver_later
+         LocationMailer.lead_for_all_email(l[:email], params[:s_name], params[:s_phone], params[:s_email], params[:s_message]).deliver_later
       end
 
     else
@@ -34,7 +34,7 @@ class LocationsController < ApplicationController
         
         @prime_location = owed_leads.first
        
-        LocationMailer.lead_for_one_email(@prime_location[:email], @prime_location[:name], params[:s_name], params[:s_phone], params[:s_email]).deliver_now
+        LocationMailer.lead_for_one_email(@prime_location[:email], @prime_location[:name], params[:s_name], params[:s_phone], params[:s_email], params[:s_message]).deliver_now
         p @prime_location[:delivered_lead_count]
 
         @prime_location[:delivered_lead_count] = @prime_location[:delivered_lead_count] + 1
@@ -43,7 +43,7 @@ class LocationsController < ApplicationController
         @prime_location.save
      else
         @sorted_locations.each do |l|
-          LocationMailer.lead_for_all_email(l[:email], params[:s_name], params[:s_phone], params[:s_email]).deliver_later
+          LocationMailer.lead_for_all_email(l[:email], params[:s_name], params[:s_phone], params[:s_email], params[:s_message]).deliver_later
         end
      end
     end
@@ -90,6 +90,6 @@ class LocationsController < ApplicationController
                                         :image, :web, :social_one, :social_two, :email, :phone, :calendly, 
                                         :range, :search_lat, :search_long, :services, :address_l1, :address_l2, 
                                         :address_state, :address_city, :address_zip, :rank, :purchased_lead_count,
-                                        :delivered_lead_count, :cms_id, :location_active, :s_name, :s_email, :s_phone)
+                                        :delivered_lead_count, :cms_id, :location_active, :s_name, :s_email, :s_phone, s_message)
     end
 end
