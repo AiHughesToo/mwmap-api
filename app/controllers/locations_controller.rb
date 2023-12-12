@@ -15,9 +15,9 @@ class LocationsController < ApplicationController
 
   def find_map_locations
     locations = Location.where(location_type: params[:location_type], location_active: true).within(params[:range], :units => :miles, :origin => [params[:search_lat], params[:search_long]])
-    # sort locations by rank - so highst rank will show in list first. 
+   
     @sorted_locations = locations.sort_by { |l| l["rank"]}.reverse
-    # eval the array here. decide which mailer to use. 
+   
     @selected = @sorted_locations.select {|location| location["rank"] > 0}
     
     if @selected.empty?
@@ -31,12 +31,18 @@ class LocationsController < ApplicationController
 
       if !has_purchased.empty? && !owed_leads.empty?
         
-        # this would deliver the lead to the location with the lowest amount of delivvered leads
-        # owed_leads = has_purchased.sort_by { |l| l["delivered_lead_count"] }
-        
-        #this delivers to the higest ranked location. 
+        # start sorting by least delivered ratio
         @prime_location = owed_leads.first
-       
+        owed_leads.each do |l|
+          prime_ratio = @prime_location[:delivered_lead_count] / @prime_location[:purchased_lead_count]
+          p prime_ratio
+          l_ratio = l[:delivered_lead_count] / l[:purchased_lead_count]
+          p l_ratio
+          if prime_ratio > l_ratio
+            @prime_location = l
+          end
+        end
+        
         LocationMailer.lead_for_one_email(@prime_location[:email], @prime_location[:name], params[:s_name], params[:s_phone], params[:s_email], params[:s_message]).deliver_now
        
         @prime_location[:delivered_lead_count] = @prime_location[:delivered_lead_count] + 1
