@@ -30,16 +30,17 @@ class LocationsController < ApplicationController
       owed_leads = has_purchased.select { |l| l["delivered_lead_count"] < l["purchased_lead_count"]}
 
       if !has_purchased.empty? && !owed_leads.empty?
+        
+        # this would deliver the lead to the location with the lowest amount of delivvered leads
         # owed_leads = has_purchased.sort_by { |l| l["delivered_lead_count"] }
         
+        #this delivers to the higest ranked location. 
         @prime_location = owed_leads.first
        
         LocationMailer.lead_for_one_email(@prime_location[:email], @prime_location[:name], params[:s_name], params[:s_phone], params[:s_email], params[:s_message]).deliver_now
-        p @prime_location[:delivered_lead_count]
-
+       
         @prime_location[:delivered_lead_count] = @prime_location[:delivered_lead_count] + 1
 
-        p @prime_location[:delivered_lead_count]
         @prime_location.save
      else
         @sorted_locations.each do |l|
@@ -48,7 +49,7 @@ class LocationsController < ApplicationController
      end
     end
     
-
+    #this returns locations in order of rank. 
     render json: @sorted_locations
   end
 
