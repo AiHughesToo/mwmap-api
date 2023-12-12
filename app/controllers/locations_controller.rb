@@ -68,12 +68,11 @@ class LocationsController < ApplicationController
   # PATCH/PUT /locations/1
   def update
 
-    @location[:service_types] = ["equine"]
     p params[:service_types]
-    
+
         params[:service_types].each do |t|
           p t
-          @loaction[:service_types] << t
+          @location[:service_types] << t
         end
 
     if @location.update(location_params)
