@@ -33,12 +33,7 @@ class LocationsController < ApplicationController
         
         # start sorting by least delivered ratio
         @prime_location = owed_leads.first
-        p 'prime location delivered'
-        p @prime_location[:delivered_lead_count]
-        p 'prime locationpurchased'
-        p @prime_location[:purchased_lead_count]
-        p 13 / 2.to_f
-       
+  
         owed_leads.each do |l|
           prime_ratio = @prime_location[:delivered_lead_count].to_f / @prime_location[:purchased_lead_count]
           p "-"
@@ -47,6 +42,7 @@ class LocationsController < ApplicationController
           p l_ratio
           if prime_ratio > l_ratio
             @prime_location = l
+            p @prime_location[:id]
           end
         end
         
