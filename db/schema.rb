@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_12_08_155910) do
+ActiveRecord::Schema.define(version: 2023_12_12_163449) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,7 +30,6 @@ ActiveRecord::Schema.define(version: 2023_12_08_155910) do
     t.string "calendly"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "services"
     t.string "address_l1"
     t.string "address_l2"
     t.string "address_state"
@@ -43,6 +42,7 @@ ActiveRecord::Schema.define(version: 2023_12_08_155910) do
     t.integer "cms_id"
     t.boolean "location_active"
     t.string "description"
+    t.string "service_types", default: [], array: true
   end
 
   create_table "users", force: :cascade do |t|
