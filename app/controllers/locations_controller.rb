@@ -67,11 +67,17 @@ class LocationsController < ApplicationController
 
   # PATCH/PUT /locations/1
   def update
+    p params[:service_types]
+    params[:service_types].each do |t|
+      p t
+    end
+
     if @location.update(location_params)
       render json: @location
     else
       render json: @location.errors, status: :unprocessable_entity
     end
+    
   end
 
   # DELETE /locations/1
