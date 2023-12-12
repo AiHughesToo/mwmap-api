@@ -35,14 +35,15 @@ class LocationsController < ApplicationController
         @prime_location = owed_leads.first
         p 'prime location delivered'
         p @prime_location[:delivered_lead_count]
+        p 'prime locationpurchased'
         p @prime_location[:purchased_lead_count]
-        p 13 / 2
-        prime_ratio = 0.00
-        l_ratio = 0.00
+        p 13 / 2.to_f
+       
         owed_leads.each do |l|
-          prime_ratio = @prime_location[:delivered_lead_count] / @prime_location[:purchased_lead_count]
+          prime_ratio = @prime_location[:delivered_lead_count].to_f / @prime_location[:purchased_lead_count]
+          p "-"
           p prime_ratio
-          l_ratio = l[:delivered_lead_count] / l[:purchased_lead_count]
+          l_ratio = l[:delivered_lead_count].to_f / l[:purchased_lead_count]
           p l_ratio
           if prime_ratio > l_ratio
             @prime_location = l
