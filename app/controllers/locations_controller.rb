@@ -89,7 +89,7 @@ class LocationsController < ApplicationController
     def location_params
       params.require(:location).permit(:name, :latitude, :longitude, :wp_user_id, :location_type, 
                                         :image, :web, :social_one, :social_two, :email, :phone, :calendly, 
-                                        :range, :search_lat, :search_long, :services, :address_l1, :address_l2, 
+                                        :range, :search_lat, :search_long, :service_types, :address_l1, :address_l2, 
                                         :address_state, :address_city, :address_zip, :rank, :purchased_lead_count,
                                         :delivered_lead_count, :cms_id, :location_active, :s_name, :s_email, :s_phone, :s_message)
     end
