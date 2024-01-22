@@ -31,18 +31,13 @@ class LocationsController < ApplicationController
 
       if !has_purchased.empty? && !owed_leads.empty?
         
-        # start sorting by least delivered ratio
         @prime_location = owed_leads.first
   
         owed_leads.each do |l|
           prime_ratio = @prime_location[:delivered_lead_count].to_f / @prime_location[:purchased_lead_count]
-          p "-"
-          p prime_ratio
           l_ratio = l[:delivered_lead_count].to_f / l[:purchased_lead_count]
-          p l_ratio
           if prime_ratio > l_ratio
             @prime_location = l
-            p @prime_location[:id]
           end
         end
         
