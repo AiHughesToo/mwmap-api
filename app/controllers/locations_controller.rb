@@ -61,6 +61,12 @@ class LocationsController < ApplicationController
   def create
     @location = Location.new(location_params)
 
+    if !params[:service_types].nil?
+      params[:service_types].each do |t|
+        @location[:service_types] << t
+      end
+    end
+
     if @location.save
       render json: @location, status: :created, location: @location
     else
