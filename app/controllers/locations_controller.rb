@@ -59,7 +59,7 @@ class LocationsController < ApplicationController
 
   def kill_em_all 
     @locations = Location.all
-    @locations..each do |l|
+    @locations.each do |l|
       l.destroy
     end
     render json: @locations
