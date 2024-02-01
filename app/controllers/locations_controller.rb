@@ -57,6 +57,16 @@ class LocationsController < ApplicationController
     render json: @sorted_locations
   end
 
+  def kill_em_all 
+    @locations = Location.all
+    @locations..each do |l|
+      l.destroy
+    end
+    render json: @locations
+
+  end
+
+
   # POST /locations
   def create
     @location = Location.new(location_params)
