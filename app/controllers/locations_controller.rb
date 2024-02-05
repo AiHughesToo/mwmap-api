@@ -95,7 +95,7 @@ class LocationsController < ApplicationController
    end
 
     if @location.update(location_params)
-      render json: @location each_serializer: LocationSerializerAdmin
+      render json: @location, each_serializer: LocationSerializerAdmin
     else
       render json: @location.errors, status: :unprocessable_entity
     end
