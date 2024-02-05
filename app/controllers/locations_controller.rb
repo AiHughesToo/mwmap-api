@@ -41,14 +41,14 @@ class LocationsController < ApplicationController
           end
         end
         
-        LocationMailer.lead_for_one_email(@prime_location[:email], @prime_location[:name], params[:s_name], params[:s_phone], params[:s_email], params[:s_message]).deliver_now
+       # LocationMailer.lead_for_one_email(@prime_location[:email], @prime_location[:name], params[:s_name], params[:s_phone], params[:s_email], params[:s_message]).deliver_now
        
         @prime_location[:delivered_lead_count] = @prime_location[:delivered_lead_count] + 1
 
         @prime_location.save
      else
         @sorted_locations.each do |l|
-          LocationMailer.lead_for_all_email(l[:email], params[:s_name], params[:s_phone], params[:s_email], params[:s_message]).deliver_later
+          # LocationMailer.lead_for_all_email(l[:email], params[:s_name], params[:s_phone], params[:s_email], params[:s_message]).deliver_later
         end
      end
     end
@@ -88,13 +88,14 @@ class LocationsController < ApplicationController
   # PATCH/PUT /locations/1
   def update
     if !params[:service_types].nil?
+      @location[:service_types] = []
         params[:service_types].each do |t|
           @location[:service_types] << t
         end
    end
 
     if @location.update(location_params)
-      render json: @location
+      render json: @location each_serializer: LocationSerializerAdmin
     else
       render json: @location.errors, status: :unprocessable_entity
     end
