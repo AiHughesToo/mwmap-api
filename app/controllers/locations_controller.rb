@@ -16,7 +16,7 @@ class LocationsController < ApplicationController
   def list_inactive_locations
     locations = Location.where(location_type: params[:location_type], location_active: false)
 
-    render json: locatoins, each_serializer: LocationSerializerAdmin
+    render json: locations, each_serializer: LocationSerializerAdmin
   end
 
   def find_map_locations
