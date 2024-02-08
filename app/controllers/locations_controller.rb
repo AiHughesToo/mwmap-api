@@ -13,6 +13,12 @@ class LocationsController < ApplicationController
     render json: @location, each_serializer: LocationSerializerAdmin
   end
 
+  def list_inactive_locations
+    locations = Location.where(location_type: params[:location_type], location_active: false)
+
+    render json: locatoins. each_serializer: LocationSerializerAdmin
+  end
+
   def find_map_locations
     locations = Location.where(location_type: params[:location_type], location_active: true).within(params[:range], :units => :miles, :origin => [params[:search_lat], params[:search_long]])
    
@@ -95,7 +101,7 @@ class LocationsController < ApplicationController
    end
 
     if @location.update(location_params)
-      render json: @location, each_serializer: LocationSerializerAdmin
+      render json: @location, serializer: LocationSerializerAdmin
     else
       render json: @location.errors, status: :unprocessable_entity
     end

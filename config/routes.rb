@@ -15,6 +15,8 @@ Rails.application.routes.draw do
     post 'find_locations' => 'locations#find_map_locations'
 
     delete 'kill_em_all' => 'locations#kill_em_all'
+
+    post 'deactivated_locations' => 'locations#list_inactive_locations'
    
     # #check if this host is correct
     # constraints(:host => 'https://magnawaveportal.com/') do
