@@ -19,6 +19,11 @@ class LocationsController < ApplicationController
     render json: locations, each_serializer: LocationSerializerAdmin
   end
 
+  def find_my_map_locations
+    locations = Location.where(email: params[:email])
+    render json: locations
+  end
+
   def find_map_locations
     locations = Location.where(location_type: params[:location_type], location_active: true).within(params[:range], :units => :miles, :origin => [params[:search_lat], params[:search_long]])
    
