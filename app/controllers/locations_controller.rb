@@ -130,7 +130,7 @@ class LocationsController < ApplicationController
                                         :image, :web, :social_one, :social_two, :email, :phone, :calendly, 
                                         :range, :search_lat, :search_long, :service_types, :address_l1, :address_l2, 
                                         :address_state, :address_city, :address_zip, :rank, :purchased_lead_count,
-                                        :delivered_lead_count, :cms_id, :location_active, :description, :s_name, 
-                                        :s_email, :s_phone, :s_message)
+                                        :delivered_lead_count, :next_purchased_lead_count, :cms_id, :location_active, 
+                                        :description, :s_name, :s_email, :s_phone, :s_message)
     end
 end
