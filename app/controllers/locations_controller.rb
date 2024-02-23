@@ -33,7 +33,7 @@ class LocationsController < ApplicationController
     
     if @selected.empty?
       @sorted_locations.each do |l|
-         LocationMailer.lead_for_all_email(l[:email], params[:s_name], params[:s_phone], params[:s_email], params[:s_message]).deliver_later
+         # LocationMailer.lead_for_all_email(l[:email], params[:s_name], params[:s_phone], params[:s_email], params[:s_message]).deliver_later
       end
 
     else
@@ -65,6 +65,14 @@ class LocationsController < ApplicationController
     end
     
     #this returns locations in order of rank. 
+    render json: @sorted_locations
+  end
+
+  def search_again
+    locations = Location.where(location_type: params[:location_type], location_active: true).within(params[:range], :units => :miles, :origin => [params[:search_lat], params[:search_long]])
+   
+    @sorted_locations = locations.sort_by { |l| l["rank"]}.reverse
+   
     render json: @sorted_locations
   end
 
