@@ -31,40 +31,40 @@ class LocationsController < ApplicationController
    
     @selected = @sorted_locations.select {|location| location["rank"] > 0}
     
-    if @selected.empty?
-      @sorted_locations.each do |l|
-         # LocationMailer.lead_for_all_email(l[:email], params[:s_name], params[:s_phone], params[:s_email], params[:s_message]).deliver_later
-      end
+    # if @selected.empty?
+    #   @sorted_locations.each do |l|
+    #      # LocationMailer.lead_for_all_email(l[:email], params[:s_name], params[:s_phone], params[:s_email], params[:s_message]).deliver_later
+    #   end
 
-    else
-      has_purchased = @selected.select { |l| l["purchased_lead_count"] > 0}
-      owed_leads = has_purchased.select { |l| l["delivered_lead_count"] < l["purchased_lead_count"]}
+    # else
+    #   has_purchased = @selected.select { |l| l["purchased_lead_count"] > 0}
+    #   owed_leads = has_purchased.select { |l| l["delivered_lead_count"] < l["purchased_lead_count"]}
 
-      if !has_purchased.empty? && !owed_leads.empty?
+    #   if !has_purchased.empty? && !owed_leads.empty?
         
-        @prime_location = owed_leads.first
+    #     @prime_location = owed_leads.first
   
-        owed_leads.each do |l|
-          prime_ratio = @prime_location[:delivered_lead_count].to_f / @prime_location[:purchased_lead_count]
-          l_ratio = l[:delivered_lead_count].to_f / l[:purchased_lead_count]
-          if prime_ratio > l_ratio
-            @prime_location = l
-          end
-        end
+    #     owed_leads.each do |l|
+    #       prime_ratio = @prime_location[:delivered_lead_count].to_f / @prime_location[:purchased_lead_count]
+    #       l_ratio = l[:delivered_lead_count].to_f / l[:purchased_lead_count]
+    #       if prime_ratio > l_ratio
+    #         @prime_location = l
+    #       end
+    #     end
         
-       # LocationMailer.lead_for_one_email(@prime_location[:email], @prime_location[:name], params[:s_name], params[:s_phone], params[:s_email], params[:s_message]).deliver_now
+    #    # LocationMailer.lead_for_one_email(@prime_location[:email], @prime_location[:name], params[:s_name], params[:s_phone], params[:s_email], params[:s_message]).deliver_now
        
-        @prime_location[:delivered_lead_count] = @prime_location[:delivered_lead_count] + 1
+    #     @prime_location[:delivered_lead_count] = @prime_location[:delivered_lead_count] + 1
 
-        @prime_location.save
-     else
-        @sorted_locations.each do |l|
-          # LocationMailer.lead_for_all_email(l[:email], params[:s_name], params[:s_phone], params[:s_email], params[:s_message]).deliver_later
-        end
-     end
-    end
+    #     @prime_location.save
+    #  else
+    #     @sorted_locations.each do |l|
+    #       # LocationMailer.lead_for_all_email(l[:email], params[:s_name], params[:s_phone], params[:s_email], params[:s_message]).deliver_later
+    #     end
+    #  end
+    # end
     
-    #this returns locations in order of rank. 
+    
     render json: @sorted_locations
   end
 
