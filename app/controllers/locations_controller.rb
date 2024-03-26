@@ -30,39 +30,43 @@ class LocationsController < ApplicationController
     @sorted_locations = locations.sort_by { |l| l["rank"]}.reverse
    
     @selected = @sorted_locations.select {|location| location["rank"] > 0}
+
+    if params[:consent]
+      if @selected.empty?
+        @sorted_locations.take(3).each do |l|
+          p "condition 1 no purchased leads"
+          # LocationMailer.lead_for_all_email(l[:email], params[:s_name], params[:s_phone], params[:s_email], params[:s_message]).deliver_later
+        end
+
+      else
+        has_purchased = @selected.select { |l| l["purchased_lead_count"] > 0}
+        owed_leads = has_purchased.select { |l| l["delivered_lead_count"] < l["purchased_lead_count"]}
+
+        if !has_purchased.empty? && !owed_leads.empty?
+          
+          @prime_location = owed_leads.first
     
-    # if @selected.empty?
-    #   @sorted_locations.each do |l|
-    #      # LocationMailer.lead_for_all_email(l[:email], params[:s_name], params[:s_phone], params[:s_email], params[:s_message]).deliver_later
-    #   end
-
-    # else
-    #   has_purchased = @selected.select { |l| l["purchased_lead_count"] > 0}
-    #   owed_leads = has_purchased.select { |l| l["delivered_lead_count"] < l["purchased_lead_count"]}
-
-    #   if !has_purchased.empty? && !owed_leads.empty?
+          owed_leads.each do |l|
+            prime_ratio = @prime_location[:delivered_lead_count].to_f / @prime_location[:purchased_lead_count]
+            l_ratio = l[:delivered_lead_count].to_f / l[:purchased_lead_count]
+            if prime_ratio > l_ratio
+              @prime_location = l
+            end
+          end
+          p "condition 2 we owe this person leads"
+        # LocationMailer.lead_for_one_email(@prime_location[:email], @prime_location[:name], params[:s_name], params[:s_phone], params[:s_email], params[:s_message]).deliver_now
         
-    #     @prime_location = owed_leads.first
-  
-    #     owed_leads.each do |l|
-    #       prime_ratio = @prime_location[:delivered_lead_count].to_f / @prime_location[:purchased_lead_count]
-    #       l_ratio = l[:delivered_lead_count].to_f / l[:purchased_lead_count]
-    #       if prime_ratio > l_ratio
-    #         @prime_location = l
-    #       end
-    #     end
-        
-    #    # LocationMailer.lead_for_one_email(@prime_location[:email], @prime_location[:name], params[:s_name], params[:s_phone], params[:s_email], params[:s_message]).deliver_now
-       
-    #     @prime_location[:delivered_lead_count] = @prime_location[:delivered_lead_count] + 1
+          @prime_location[:delivered_lead_count] = @prime_location[:delivered_lead_count] + 1
 
-    #     @prime_location.save
-    #  else
-    #     @sorted_locations.each do |l|
-    #       # LocationMailer.lead_for_all_email(l[:email], params[:s_name], params[:s_phone], params[:s_email], params[:s_message]).deliver_later
-    #     end
-    #  end
-    # end
+          @prime_location.save
+       else
+          @sorted_locations.take(3).each do |l|
+            p "condition 2 we have ranked practitioners but do not owe leads"
+            # LocationMailer.lead_for_all_email(l[:email], params[:s_name], params[:s_phone], params[:s_email], params[:s_message]).deliver_later
+          end
+       end
+      end
+    end
     
     
     render json: @sorted_locations
@@ -139,6 +143,6 @@ class LocationsController < ApplicationController
                                         :range, :search_lat, :search_long, :service_types, :address_l1, :address_l2, 
                                         :address_state, :address_city, :address_zip, :rank, :purchased_lead_count,
                                         :delivered_lead_count, :next_purchased_lead_count, :cms_id, :location_active, 
-                                        :description, :s_name, :s_email, :s_phone, :s_message)
+                                        :description, :s_name, :s_email, :s_phone, :s_message, :consent)
     end
 end
