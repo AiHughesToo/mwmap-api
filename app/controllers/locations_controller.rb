@@ -61,7 +61,7 @@ class LocationsController < ApplicationController
           @prime_location.save
        else
           @sorted_locations.take(3).each do |l|
-            p "condition 2 we have ranked practitioners but do not owe leads"
+            p "condition 3 we have ranked practitioners but do not owe leads"
             # LocationMailer.lead_for_all_email(l[:email], params[:s_name], params[:s_phone], params[:s_email], params[:s_message]).deliver_later
           end
        end
