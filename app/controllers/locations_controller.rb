@@ -79,7 +79,7 @@ class LocationsController < ApplicationController
     # take first item from array. if has rank > 0 this will be our sponcered practitioner. 
     # add this to the first of the array of locatoins. 
    
-    render json: @sorted_locations
+    render json: locations
   end
 
   def kill_em_all 
