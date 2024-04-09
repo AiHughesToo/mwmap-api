@@ -79,8 +79,10 @@ class LocationsController < ApplicationController
     # take first item from array. if has rank > 0 this will be our sponcered practitioner. 
     # add this to the first of the array of locatoins. 
    
-    @newLocations = locations.sort_by{|l| l.distance_to([params[:search_lat], params[:search_long]])}.reverse
-    
+    @newLocations = locations.sort_by{|l| l.distance_to([params[:search_lat], params[:search_long]])}
+
+    p @newLocations[0].distance_to([params[:search_lat], params[:search_long]])
+
     render json: @newLocations
   end
 
