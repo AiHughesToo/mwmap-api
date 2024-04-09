@@ -25,7 +25,7 @@ class LocationsController < ApplicationController
   end
 
   def find_map_locations
-    locations = Location.where(location_type: params[:location_type], location_active: true).within(params[:range], :units => :miles, :origin => [params[:search_lat], params[:search_long]]).order('distance ASC')
+    locations = Location.where(location_type: params[:location_type], location_active: true).within(params[:range], :units => :miles, :origin => [params[:search_lat], params[:search_long]])
    
     @sorted_locations = locations.sort_by { |l| l["rank"]}.reverse
    
