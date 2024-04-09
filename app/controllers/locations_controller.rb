@@ -25,7 +25,7 @@ class LocationsController < ApplicationController
   end
 
   def find_map_locations
-    locations = Location.where(location_type: params[:location_type], location_active: true).within(params[:range], :units => :miles, :origin => [params[:search_lat], params[:search_long]])
+    locations = Location.where(location_type: params[:location_type], location_active: true).within(params[:range], :units => :miles, :origin => [params[:search_lat], params[:search_long]]).order('distance ASC')
    
     @sorted_locations = locations.sort_by { |l| l["rank"]}.reverse
    
@@ -39,8 +39,8 @@ class LocationsController < ApplicationController
         end
 
       else
-        has_purchased = @selected.select { |l| l["purchased_lead_count"] > 0}
-        owed_leads = has_purchased.select { |l| l["delivered_lead_count"] < l["purchased_lead_count"]}
+        has_purchased = @selected.select { |l| l["purchased_lead_count"] > 0 }
+        owed_leads = has_purchased.select { |l| l["delivered_lead_count"] < l["purchased_lead_count"] }
 
         if !has_purchased.empty? && !owed_leads.empty?
           
@@ -76,6 +76,8 @@ class LocationsController < ApplicationController
     locations = Location.where(location_type: params[:location_type], location_active: true).within(params[:range], :units => :miles, :origin => [params[:search_lat], params[:search_long]])
    
     @sorted_locations = locations.sort_by { |l| l["rank"]}.reverse
+    # take first item from array. if has rank > 0 this will be our sponcered practitioner. 
+    # add this to the first of the array of locatoins. 
    
     render json: @sorted_locations
   end
