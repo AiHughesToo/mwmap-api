@@ -73,7 +73,7 @@ class LocationsController < ApplicationController
   end
 
   def search_again
-    locations = Location.where(location_type: params[:location_type], location_active: true).within(params[:range], :units => :miles, :origin => [params[:search_lat], params[:search_long]]).order('distance ASC')
+    locations = Location.where(location_type: params[:location_type], location_active: true).within(params[:range], :units => :miles, :origin => [params[:search_lat], params[:search_long]])
    
     @sorted_locations = locations.sort_by { |l| l["rank"]}.reverse
     # take first item from array. if has rank > 0 this will be our sponcered practitioner. 
