@@ -27,7 +27,8 @@ class LocationsController < ApplicationController
   def find_map_locations
     locations = Location.where(location_type: params[:location_type], location_active: true).within(params[:range], :units => :miles, :origin => [params[:search_lat], params[:search_long]])
    
-    @sorted_locations = locations.sort_by { |l| l["rank"]}.reverse
+    # @sorted_locations = locations.sort_by { |l| l["rank"]}.reverse
+    @sorted_locations = locations.sort_by{|l| l.distance_to([params[:search_lat], params[:search_long]])}
    
     @selected = @sorted_locations.select {|location| location["rank"] > 0}
 
@@ -35,7 +36,7 @@ class LocationsController < ApplicationController
       if @selected.empty?
         @sorted_locations.take(3).each do |l|
           p "condition 1 no purchased leads"
-          # LocationMailer.lead_for_all_email(l[:email], params[:s_name], params[:s_phone], params[:s_email], params[:s_message]).deliver_later
+          LocationMailer.lead_for_all_email(l[:email], params[:s_name], params[:s_phone], params[:s_email]).deliver_later
         end
 
       else
@@ -87,11 +88,11 @@ class LocationsController < ApplicationController
   end
 
   def kill_em_all 
-    @locations = Location.all
-    @locations.each do |l|
-      l.destroy
-    end
-    render json: @locations
+    # @locations = Location.all
+    # @locations.each do |l|
+    #   l.destroy
+    # end
+    # render json: @locations
 
   end
 
