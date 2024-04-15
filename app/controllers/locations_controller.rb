@@ -36,7 +36,7 @@ class LocationsController < ApplicationController
       if @selected.empty?
         @sorted_locations.take(3).each do |l|
           p "condition 1 no purchased leads"
-          LocationMailer.lead_for_all_email(l[:email], params[:s_name], params[:s_phone], params[:s_email]).deliver_later
+          LocationMailer.lead_for_all_email(l[:email], params[:s_name], params[:s_phone], params[:s_email], params[:message]).deliver_later
         end
 
       else
@@ -63,7 +63,7 @@ class LocationsController < ApplicationController
        else
           @sorted_locations.take(3).each do |l|
             p "condition 3 we have ranked practitioners but do not owe leads"
-             LocationMailer.lead_for_all_email(l[:email], params[:s_name], params[:s_phone], params[:s_email]).deliver_later
+             LocationMailer.lead_for_all_email(l[:email], params[:s_name], params[:s_phone], params[:s_email], params[:message]).deliver_later
           end
        end
       end
