@@ -82,7 +82,6 @@ class LocationsController < ApplicationController
    
     @newLocations = locations.sort_by{|l| l.distance_to([params[:search_lat], params[:search_long]])}
 
-    p @newLocations[0].distance_to([params[:search_lat], params[:search_long]])
 
     render json: @newLocations
   end
