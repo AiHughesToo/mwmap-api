@@ -21,6 +21,8 @@ Rails.application.routes.draw do
     post 'my_locations' => 'locations#find_my_map_locations'
 
     post 'second_search' => 'locations#search_again'
+
+    get 'send_test_email' => 'locations#send_test_email'
    
     # #check if this host is correct
     # constraints(:host => 'https://magnawaveportal.com/') do
