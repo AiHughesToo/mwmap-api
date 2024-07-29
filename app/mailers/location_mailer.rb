@@ -23,13 +23,13 @@ class LocationMailer < ApplicationMailer
       end
 
       def test_email()
-        @t_email = "ah@trumando.com"
+       
         delivery_options = { user_name: "leads@magnawaveportal.com",
                          password: "MagnaWave1!2024",
                          address: "smtp.mailgun.org",
                         port: 587,
                       domain: "magnawaveportal.com"}
-        mail(to: "ah@trumando.com", subject: "Test MW Email", delivery_method_options: delivery_options)
+        mail(to: "ah@trumando.com", subject: "Test MW Email")
       end
 
 end

@@ -117,11 +117,11 @@ Rails.application.configure do
   Rails.application.routes.default_url_options[:host] = 'https://mw-map-api-8512588b5c8e.herokuapp.com'
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-      address:              'smtp.gmail.com',
+      address:              'smtp.mailgun.org',
       port:                 587,
-      domain:               'gmail.com',
-      user_name:            "magnawavedevelopment@gmail.com",
-      password:             "smxs zxiq jlsr rvsh",
+      domain:               'magnawaveportal.com',
+      user_name:            "leads@magnawaveportal.com",
+      password:             "MagnaWave1!2024",
       authentication:       'plain',
       enable_starttls_auto: true
   }
