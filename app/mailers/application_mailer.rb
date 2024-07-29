@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'leads@magnawaveportal.com'
+  default from: 'MapLeads@magnawaveportal.com'
   layout 'mailer'
 end
