@@ -29,7 +29,7 @@ class LocationMailer < ApplicationMailer
                          address: "smtp.mailgun.org",
                         port: 587,
                       domain: "magnawaveportal.com"}
-        mail(to: "ah@trumando.com", subject: "Test MW Email")
+        mail(to: "alex@magnawavepemf.com", subject: "Test MW Email")
       end
 
 end
