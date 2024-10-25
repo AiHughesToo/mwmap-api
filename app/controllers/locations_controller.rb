@@ -40,7 +40,8 @@ class LocationsController < ApplicationController
       if @selected.empty?
         @sorted_locations.take(3).each do |l|
           p "condition 1 no purchased leads"
-          LocationMailer.lead_for_all_email(l[:email], params[:s_name], params[:s_phone], params[:s_email], params[:message]).deliver_later
+          new_email = params[s_phone].gsub('%2b', '+')
+          LocationMailer.lead_for_all_email(l[:email], params[:s_name], new_email, params[:s_email], params[:message]).deliver_later
         end
 
       else
