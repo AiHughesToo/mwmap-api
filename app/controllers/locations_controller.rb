@@ -41,7 +41,8 @@ class LocationsController < ApplicationController
         @sorted_locations.take(3).each do |l|
           p "condition 1 no purchased leads"
         
-          new_phone = params[:s_phone].gsub('%2b', '')
+          new_phone = params[:s_phone].chars.drop(3).join
+          p new_phone
           LocationMailer.lead_for_all_email(l[:email], params[:s_name], new_phone, params[:s_email], params[:message]).deliver_later
         end
 
@@ -61,6 +62,7 @@ class LocationsController < ApplicationController
             end
           end
           p "condition 2 we owe this person leads"
+        
         # LocationMailer.lead_for_one_email(@prime_location[:email], @prime_location[:name], params[:s_name], params[:s_phone], params[:s_email], params[:s_message]).deliver_now
         
           @prime_location[:delivered_lead_count] = @prime_location[:delivered_lead_count] + 1
@@ -69,9 +71,7 @@ class LocationsController < ApplicationController
        else
           @sorted_locations.take(3).each do |l|
             p "condition 3 we have ranked practitioners but do not owe leads"
-              p params[:s_phone]
-              p params[:s_phone].chars.drop(3).join
-              new_phone = params[:s_phone].gsub('%2b', '')
+              new_phone = params[:s_phone].chars.drop(3).join
               p new_phone
              LocationMailer.lead_for_all_email(l[:email], params[:s_name], new_phone, params[:s_email], params[:message]).deliver_later
           end
