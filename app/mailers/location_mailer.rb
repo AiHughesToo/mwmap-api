@@ -6,6 +6,9 @@ class LocationMailer < ApplicationMailer
         @s_email = s_email
         @s_phone = s_phone
         @s_message = message
+
+        p @s_phone
+        p s_phone
         mail(to: email, subjet: "New Map Lead")
   
       end
