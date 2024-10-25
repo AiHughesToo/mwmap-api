@@ -70,8 +70,9 @@ class LocationsController < ApplicationController
           @sorted_locations.take(3).each do |l|
             p "condition 3 we have ranked practitioners but do not owe leads"
               p params[:s_phone]
-              p params[:s_phone].gsub('%2b', '')
+              p params[:s_phone].chars.drop(3).join
               new_phone = params[:s_phone].gsub('%2b', '')
+              p new_phone
              LocationMailer.lead_for_all_email(l[:email], params[:s_name], new_phone, params[:s_email], params[:message]).deliver_later
           end
        end
