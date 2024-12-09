@@ -23,6 +23,8 @@ Rails.application.routes.draw do
     post 'second_search' => 'locations#search_again'
 
     get 'send_test_email' => 'locations#send_test_email'
+
+    post 'find_by_state' => 'locations#find_location_by_state'
    
     # #check if this host is correct
     # constraints(:host => 'https://magnawaveportal.com/') do
