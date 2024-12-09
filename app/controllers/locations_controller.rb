@@ -29,7 +29,32 @@ class LocationsController < ApplicationController
   end
 
   def find_location_by_state
-    locations = Location.where("LOWER(address_state) = ?", params[:address_state].downcase).where(location_active: true)
+
+    state_abbreviations = {
+      "Alabama" => "AL", "Alaska" => "AK", "Arizona" => "AZ", "Arkansas" => "AR", "California" => "CA",
+      "Colorado" => "CO", "Connecticut" => "CT", "Delaware" => "DE", "Florida" => "FL", "Georgia" => "GA",
+      "Hawaii" => "HI", "Idaho" => "ID", "Illinois" => "IL", "Indiana" => "IN", "Iowa" => "IA",
+      "Kansas" => "KS", "Kentucky" => "KY", "Louisiana" => "LA", "Maine" => "ME", "Maryland" => "MD",
+      "Massachusetts" => "MA", "Michigan" => "MI", "Minnesota" => "MN", "Mississippi" => "MS", "Missouri" => "MO",
+      "Montana" => "MT", "Nebraska" => "NE", "Nevada" => "NV", "New Hampshire" => "NH", "New Jersey" => "NJ",
+      "New Mexico" => "NM", "New York" => "NY", "North Carolina" => "NC", "North Dakota" => "ND", "Ohio" => "OH",
+      "Oklahoma" => "OK", "Oregon" => "OR", "Pennsylvania" => "PA", "Rhode Island" => "RI", "South Carolina" => "SC",
+      "South Dakota" => "SD", "Tennessee" => "TN", "Texas" => "TX", "Utah" => "UT", "Vermont" => "VT",
+      "Virginia" => "VA", "Washington" => "WA", "West Virginia" => "WV", "Wisconsin" => "WI", "Wyoming" => "WY"
+    }
+    
+    full_state_name = params[:address_state].strip
+    abbreviation = state_abbreviations[full_state_name]
+
+    if abbreviation.nil?
+      render json: { error: "Invalid state name" }, status: :bad_request
+      return
+    end
+
+    # Search for locations where address_state contains either the full state name or the abbreviation
+    locations = Location.where("LOWER(address_state) LIKE ? OR LOWER(address_state) LIKE ?", 
+                               "%#{full_state_name.downcase}%", "%#{abbreviation.downcase}%")
+                        .where(location_active: true)
     render json: locations
   end
 
