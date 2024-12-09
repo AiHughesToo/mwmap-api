@@ -29,7 +29,7 @@ class LocationsController < ApplicationController
   end
 
   def find_location_by_state
-    locations = Location.where(address_state.downcase: params[:address_state].downcase, location_active: true)
+    locations = Location.where(address_state: params[:address_state], location_active: true)
     render json: locations
   end
 
